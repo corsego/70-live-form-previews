@@ -1,4 +1,5 @@
-<%= form_with(model: task) do |form| %>
+<%#= notice %>
+<%= form_with(model: task, data: { controller: "autosubmit", action: "input->autosubmit#submit" }) do |form| %>
   <% if task.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
@@ -10,6 +11,8 @@
       </ul>
     </div>
   <% end %>
+  
+  <div id="preview"></div>
 
   <div>
     <%= form.label :name, style: "display: block" %>
@@ -22,6 +25,8 @@
   </div>
 
   <div>
+    <%= form.button "Preview / Validate", formaction: preview_tasks_path, name: "_method", value: "post",
+      data: { autosubmit_target: "submitbutton" } %>
     <%= form.submit %>
   </div>
 <% end %>
